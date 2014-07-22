@@ -40,8 +40,6 @@ package com.sammyjoeosborne.spriter
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
 	import starling.animation.IAnimatable;
-	import starling.display.DisplayObject;
-	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.textures.Texture;
@@ -343,12 +341,14 @@ package com.sammyjoeosborne.spriter
 		 * Used for the command queue since I don't think I can call setters with params from it
 		 * @param	$value
 		 */
-		private function setLoop($value:Boolean)
+		private function setLoop($value:Boolean):void
 		{
 			if(_isReady && _currentAnimation)
 				_currentAnimation.loop = $value;
-			else _commandQueue.push(new Command(setLoop, [$value]));
+			else
+				_commandQueue.push(new Command(setLoop, [$value]));
 		}
+		
 		/**
 		 * Used to determine if the current Animation was originally set to loop
 		 * in the SCML file.
@@ -381,7 +381,7 @@ package com.sammyjoeosborne.spriter
 		 * @param	$texturePack The TexturePack to apply
 		 * @param	$disposeOld Disposes of all textures in the previous TexturePack. You must be sure these textures aren't being used elsewhere
 		 */
-		public function applyTexturePack($texturePack:TexturePack, $disposeOld:Boolean = true)
+		public function applyTexturePack($texturePack:TexturePack, $disposeOld:Boolean = true):void
 		{
 			if ($texturePack.isReady)
 			{
@@ -473,13 +473,16 @@ package com.sammyjoeosborne.spriter
 		 * @param	$frameID
 		 * @param	$sound
 		 */
-		public function setFrameSound($frameID:uint, $sound:Sound)
+		public function setFrameSound($frameID:uint, $sound:Sound):void
 		{
 			if (_isReady && _currentAnimation)
 			{
 				_currentAnimation.setFrameSound($frameID, $sound);
 			}
-			else _commandQueue.push(new Command(setFrameSound, [$frameID, $sound]));
+			else
+			{
+				_commandQueue.push(new Command(setFrameSound, [$frameID, $sound]));
+			}
 		}
 		
 		/**
